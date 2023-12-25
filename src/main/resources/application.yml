@@ -1,0 +1,23 @@
+server:
+  port: 8081
+
+### Spring Properties
+spring:
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/jpa_demo
+    username: root
+    password: Test#12345
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # JPA properties
+  jpa:
+    generate-ddl: true
+    open-in-view: true
+    hibernate:
+      ddl-auto: update
+
+
