@@ -61,7 +61,7 @@ public class BookServiceImpl implements BookService {
         book.setEdition(request.edition());
         book.setYearOfPublication(request.yearOfPublication());
         book.setPublisher(request.publisher());
-        book.setAuthors(List.of(new Author(request.firstName(), request.lastName(), request.email(), request.phoneNumber())));
+        book.setAuthor(new Author(request.firstName(), request.lastName(), request.email(), request.phoneNumber()));
         return bookRepository.saveAndFlush(book);
     }
 
@@ -83,7 +83,7 @@ public class BookServiceImpl implements BookService {
         book.setEdition(request.edition());
         book.setYearOfPublication(request.yearOfPublication());
         book.setPublisher(request.publisher());
-        return bookRepository.saveAndFlush(book);
+        return bookRepository.save(book);
     }
 
     /**

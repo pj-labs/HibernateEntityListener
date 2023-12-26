@@ -3,17 +3,15 @@ package com.pj.hibernate.entity.listener.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.envers.Audited;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "author")
 @Data
-@Audited(withModifiedFlag = true)
+//@EntityListeners(AuthorEntityListener.class)
 public class Author implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,9 +20,10 @@ public class Author implements Serializable {
     private String email;
     private String phoneNumber;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "authors")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id")
     @JsonBackReference
-    List<Book> books = new ArrayList<>();
+    Book book;
 
     public Author() {
         // default constructor

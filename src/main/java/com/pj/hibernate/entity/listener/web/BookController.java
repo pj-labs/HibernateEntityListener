@@ -44,7 +44,7 @@ public class BookController {
      * @author Pavan Kumar Jadda
      * @since 1.0.0
      */
-    @GetMapping("/create")
+    @PostMapping("/create")
     public Book createNewBook(@RequestBody BookCreateRequestDTO request) {
         return bookService.create(request);
     }
@@ -57,13 +57,13 @@ public class BookController {
      * @author Pavan Kumar Jadda
      * @since 1.0.0
      */
-    @GetMapping("/update")
+    @PutMapping("/update")
     public Book updateBook(@RequestBody BookUpdateRequestDTO request) {
         return bookService.update(request);
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteBook(Long id) {
+    public void deleteBook(@PathVariable Long id) {
         bookService.delete(id);
     }
 }

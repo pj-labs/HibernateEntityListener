@@ -3,16 +3,14 @@ package com.pj.hibernate.entity.listener.domain;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.envers.Audited;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "book")
 @Data
-@Audited(withModifiedFlag = true)
-public class Book {
+//@EntityListeners(BookEntityListener.class)
+public class Book implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,10 +20,7 @@ public class Book {
     private Integer yearOfPublication;
     private String publisher;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(name = "book_author",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "author_id"))
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "book")
     @JsonManagedReference
-    private List<Author> authors = new ArrayList<>();
+    private Author author;
 }

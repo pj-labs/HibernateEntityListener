@@ -1,6 +1,7 @@
 package com.pj.hibernate.entity.listener.listeners;
 
-import jakarta.persistence.EntityManager;
+import com.pj.hibernate.entity.listener.domain.MaterializedBookAuthor;
+import com.pj.hibernate.entity.listener.repository.MaterializedBookAuthorRepository;
 import org.hibernate.event.spi.*;
 import org.hibernate.persister.entity.EntityPersister;
 import org.springframework.stereotype.Component;
@@ -8,23 +9,41 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomSaveOrUpdateEventListener
         implements PostDeleteEventListener, PostInsertEventListener, PostUpdateEventListener {
-    private final EntityManager entityManager;
+    private final MaterializedBookAuthorRepository repository;
 
-    public CustomSaveOrUpdateEventListener(EntityManager entityManager) {
-        this.entityManager = entityManager;
+    public CustomSaveOrUpdateEventListener(MaterializedBookAuthorRepository repository) {
+        this.repository = repository;
     }
     
-
     @Override
     public void onPostDelete(PostDeleteEvent event) {
         final Object entity = event.getEntity();
         System.out.println("CustomSaveOrUpdateEventListener.onPostDelete: " + entity);
+        if (entity instanceof com.pj.hibernate.entity.listener.domain.Book book) {
+            repository.deleteById(book.getId());
+        }
     }
 
     @Override
     public void onPostInsert(PostInsertEvent event) {
         final Object entity = event.getEntity();
         System.out.println("CustomSaveOrUpdateEventListener.onPostInsert: " + entity);
+
+        if (entity instanceof com.pj.hibernate.entity.listener.domain.Book book) {
+            var materializedBookAuthor = repository.findById(book.getId()).orElse(new MaterializedBookAuthor(book.getId()));
+            materializedBookAuthor.setBookId(book.getId());
+            materializedBookAuthor.setTitle(book.getTitle());
+            materializedBookAuthor.setIsbn(book.getIsbn());
+            materializedBookAuthor.setPublisher(book.getPublisher());
+            materializedBookAuthor.setYearOfPublication(book.getYearOfPublication());
+            materializedBookAuthor.setAuthorId(book.getAuthor().getId());
+            materializedBookAuthor.setFirstName(book.getAuthor().getFirstName());
+            materializedBookAuthor.setLastName(book.getAuthor().getLastName());
+            materializedBookAuthor.setEmail(book.getAuthor().getLastName());
+            materializedBookAuthor.setPhoneNumber(book.getAuthor().getPhoneNumber());
+
+            repository.save(materializedBookAuthor);
+        }
     }
 
     @Override
