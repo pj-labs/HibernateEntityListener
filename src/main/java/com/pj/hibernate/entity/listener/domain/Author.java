@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "author")
 @Data
-//@EntityListeners(AuthorEntityListener.class)
+@EntityListeners(AuthorEntityListener.class)
 public class Author implements Serializable {
 
     @Id

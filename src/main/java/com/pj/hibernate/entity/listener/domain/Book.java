@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "book")
 @Data
-//@EntityListeners(BookEntityListener.class)
+@EntityListeners(BookEntityListener.class)
 public class Book implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
