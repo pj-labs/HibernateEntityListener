@@ -83,7 +83,7 @@ public class BookServiceImpl implements BookService {
         book.setEdition(request.edition());
         book.setYearOfPublication(request.yearOfPublication());
         book.setPublisher(request.publisher());
-        return bookRepository.save(book);
+        return bookRepository.saveAndFlush(book);
     }
 
     /**

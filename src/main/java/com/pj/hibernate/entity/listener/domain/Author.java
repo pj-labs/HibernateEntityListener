@@ -11,6 +11,7 @@ import java.io.Serializable;
 @Data
 @EntityListeners(AuthorEntityListener.class)
 public class Author implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
