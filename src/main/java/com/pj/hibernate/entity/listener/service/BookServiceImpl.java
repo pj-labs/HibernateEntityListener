@@ -6,15 +6,19 @@ import com.pj.hibernate.entity.listener.dto.BookCreateRequestDTO;
 import com.pj.hibernate.entity.listener.dto.BookUpdateRequestDTO;
 import com.pj.hibernate.entity.listener.repository.BookRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
+    private final AuthorService authorService;
 
-    public BookServiceImpl(BookRepository bookRepository) {
+    public BookServiceImpl(BookRepository bookRepository, AuthorService authorService) {
         this.bookRepository = bookRepository;
+        this.authorService = authorService;
     }
 
     /**
@@ -61,7 +65,7 @@ public class BookServiceImpl implements BookService {
         book.setEdition(request.edition());
         book.setYearOfPublication(request.yearOfPublication());
         book.setPublisher(request.publisher());
-        book.setAuthor(new Author(request.firstName(), request.lastName(), request.email(), request.phoneNumber()));
+        book.setAuthor(authorService.create(new Author(request.firstName(), request.lastName(), request.email(), request.phoneNumber())));
         return bookRepository.saveAndFlush(book);
     }
 
@@ -83,7 +87,7 @@ public class BookServiceImpl implements BookService {
         book.setEdition(request.edition());
         book.setYearOfPublication(request.yearOfPublication());
         book.setPublisher(request.publisher());
-        return bookRepository.saveAndFlush(book);
+        return bookRepository.save(book);
     }
 
     /**

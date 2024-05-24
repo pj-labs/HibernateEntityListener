@@ -1,12 +1,12 @@
 package com.pj.hibernate.entity.listener.config;
 
-
 import com.pj.hibernate.entity.listener.listeners.CustomPreInsertEventListener;
 import com.pj.hibernate.entity.listener.listeners.CustomSaveOrUpdateEventListener;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceUnit;
 import org.hibernate.event.service.spi.EventListenerRegistry;
+import org.hibernate.event.spi.EventType;
 import org.hibernate.internal.SessionFactoryImpl;
 import org.springframework.context.annotation.Configuration;
 
@@ -36,8 +36,8 @@ public class HibernateConfig {
 //        registry.getEventListenerGroup(EventType.PRE_INSERT).appendListener(preInsertEventListener);
 //        registry.getEventListenerGroup(EventType.PRE_UPDATE).appendListener(preInsertEventListener);
 //        registry.getEventListenerGroup(EventType.PRE_DELETE).appendListener(preInsertEventListener);
-        /*registry.getEventListenerGroup(EventType.POST_UPDATE).appendListener(saveOrUpdateEventListener);
+        registry.getEventListenerGroup(EventType.POST_UPDATE).appendListener(saveOrUpdateEventListener);
         registry.getEventListenerGroup(EventType.POST_INSERT).appendListener(saveOrUpdateEventListener);
-        registry.getEventListenerGroup(EventType.POST_DELETE).appendListener(saveOrUpdateEventListener);*/
+        registry.getEventListenerGroup(EventType.POST_DELETE).appendListener(saveOrUpdateEventListener);
     }
 }
